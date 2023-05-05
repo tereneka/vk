@@ -1,0 +1,11 @@
+.form__message {
+}
+
+/* изменила стили antd */
+.ant-message {
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0 !important;
+  padding-top: 20vh;
+  height: 100vh;
+}
