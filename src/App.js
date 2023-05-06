@@ -27,6 +27,8 @@ function App() {
 
   const dateFormat = 'DD.MM.YYYY';
 
+  const timeFormat = 'HH:mm';
+
   const [messageApi, messageContextHolder] =
     message.useMessage();
 
@@ -91,7 +93,6 @@ function App() {
   };
 
   function handleDateChange(date) {
-    console.log(date.day());
     if (date) {
       setIsToday(
         date?.format(dateFormat) ===
@@ -130,7 +131,7 @@ function App() {
   function handleFormSubmit(values) {
     const date = values.date.format(dateFormat);
     const time = values.time
-      .map((i) => i.format('HH:mm'))
+      .map((i) => i.format(timeFormat))
       .join(' - ');
 
     showMessage(values, date, time);
@@ -143,7 +144,7 @@ function App() {
       })
     );
 
-    form.resetFields();
+    // form.resetFields();
   }
 
   return (
@@ -229,10 +230,23 @@ function App() {
                 required: true,
                 message: 'Выберите время',
               },
+
+              {
+                validator: (_, values) =>
+                  !values ||
+                  values[0].format(timeFormat) !==
+                    values[1].format(timeFormat)
+                    ? Promise.resolve()
+                    : Promise.reject(
+                        new Error(
+                          'Время начала и окончания не должны совпадать'
+                        )
+                      ),
+              },
             ]}>
             <TimePicker.RangePicker
               className='form__date-item'
-              format={'HH:mm'}
+              format={timeFormat}
               minuteStep={30}
               disabledTime={disabledRangeTime}
               hideDisabledOptions
