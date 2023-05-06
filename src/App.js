@@ -144,7 +144,7 @@ function App() {
       })
     );
 
-    // form.resetFields();
+    form.resetFields();
   }
 
   return (
